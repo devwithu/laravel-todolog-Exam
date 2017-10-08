@@ -16,3 +16,6 @@ Route::get('/', 'WelcomeController@index');  //1
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('auth/github', 'Auth\AuthController@redirectToGitHub');
+Route::get('auth/github/callback', 'Auth\AuthController@handleGitHubCallback');
