@@ -52,6 +52,8 @@ class ProjectController extends Controller
 
         $proj->save();
 
+        \Redis::incr('project:count');
+
         Log::info('Project 등록 성공', ['user_id'=> $user->id, 'project_id'=>$proj->id]);
 
         return redirect('/project')
@@ -123,6 +125,8 @@ class ProjectController extends Controller
         }
 
         $proj->delete();    // 2
+
+        \Redis::decr('project:count');
 
         return redirect('/project')
             ->with('message', '프로젝트 ' . $proj->name  . ' 이 삭제되었습니다.');
