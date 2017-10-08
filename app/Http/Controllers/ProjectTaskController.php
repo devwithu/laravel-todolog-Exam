@@ -15,7 +15,13 @@ class ProjectTaskController extends Controller
      */
     public function index()
     {
-        //
+        $proj = Project::findOrFail($project);
+
+        $tasks = $proj->tasks()->get();
+
+        return view('project.task.index')
+                ->with('tasks', $tasks)
+                ->with('proj', $proj);
     }
 
     /**
