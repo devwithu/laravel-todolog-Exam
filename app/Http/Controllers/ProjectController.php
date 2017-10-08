@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Project;
+use Log;
 
 class ProjectController extends Controller
 {
@@ -50,6 +51,8 @@ class ProjectController extends Controller
         $proj->user()->associate($user->id);
 
         $proj->save();
+
+        Log::info('Project 등록 성공', ['user_id'=> $user->id, 'project_id'=>$proj->id]);
 
         return redirect('/project')
             ->with('message', $proj->name . ' 이 생성되었습니다.');

@@ -31,10 +31,13 @@ class ProjectTaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
-    }
+     public function create($projId)
+     {
+         $proj = Project::findOrFail($projId);
+
+         return view('project.task.create')
+             ->with('proj', $proj);
+     }
 
     /**
      * Store a newly created resource in storage.
@@ -42,10 +45,23 @@ class ProjectTaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+     public function store(Request $request, $projId)
+     {
+         $task = new Task([    //1
+             'name' => $request->get('name'),
+             'description' => $request->get('description'),
+             'priority' => $request->get('priority'),
+             'status' => $request->get('status'),
+             'due_date' => $request->get('due_date'),
+         ]);
+
+         $task->project()->associate($projId);;    //2
+
+         $task->save();    //3
+
+         return redirect(route('project.task.index', $task->project->id))
+             ->with('message', $task->name . ' 가 생성 되었습니다.');
+     }
 
     /**
      * Display the specified resource.
