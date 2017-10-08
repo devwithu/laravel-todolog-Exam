@@ -131,5 +131,8 @@
             </tbody>
         </table>
     </div>
+    <div class="text-center">
+        {!! $tasks->appends($query_param)->render() !!}
+    </div>
 
 @endsection
